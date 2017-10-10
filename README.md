@@ -21,7 +21,8 @@ Pontospell is distributed under an [MIT licence].
 Contact
 -------
 
-Brett Kessler 
+[Brett Kessler]
+
   [Brett Kessler]: http://spell.psychology.wustl.edu/bkessler.html
 
 
