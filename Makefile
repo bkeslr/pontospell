@@ -9,10 +9,11 @@ README.html:	README.md
 	  README.md --output=README.html
 
 test:
-	echo $(PATH)
 	mypy src/pontospell
 	pylint src/pontospell
-	pytest --verbose --doctest-modules -r chars
+	pylint tests
+	pytest --verbose -v --ignore=Notes --doctest-modules
+	#pytest --verbose --doctest-modules -r chars
 
 create-env:
 	$(MINICONDA)/conda install conda-build
