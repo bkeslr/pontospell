@@ -1,9 +1,9 @@
 #! /usr/bin/env python
 # developed under 3.6.3
 
-""" test_align.py
+""" test_chart.py
 
-Tests for align module, using pytest.
+Tests for chart module, using pytest.
 """
 
 # Brett Kessler, Washington University in St. Louis
@@ -12,9 +12,9 @@ Tests for align module, using pytest.
 from math import sqrt
 import unicodedata
 
-import pytest
+import pytest  # type: ignore
 
-import pontospell.align as ponto
+import pontospell.chart as ponto
 
 def test_coordinates_not_2():
     """ Test run-time errors for Coordinates constructor. """

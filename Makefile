@@ -9,11 +9,16 @@ README.html:	README.md
 	  README.md --output=README.html
 
 test:
-	mypy src/pontospell
+	mypy src/pontospell tests
 	pylint src/pontospell
-	pylint tests
+	pylint tests --disable=duplicate-code
 	pytest --verbose -v --ignore=Notes --doctest-modules
-	#pytest --verbose --doctest-modules -r chars
+
+time:
+	python -m timeit -s "import pontospell.chart as p" \
+		"p.vertical_alignment(p.levenshtein('intention', 'execution'))"
+	python -m timeit -s "import pontospell.xducer as p" \
+		"p.vertical_align(p.align(p.arguments('intention', 'execution', just_one=True))[0])"
 
 create-env:
 	$(MINICONDA)/conda install conda-build

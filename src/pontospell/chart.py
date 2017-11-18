@@ -2,6 +2,62 @@
 """ align.py
 
 Align and score two sequences using dynamic programming.
+
+>>> import pontospell.chart as chart
+>>> result = chart.levenshtein('intention', 'execution')
+>>> chart.min_edit_distance(result)
+8
+>>> print(chart.vertical_alignment(result))
+i >    1
+n ~ e  2
+t ~ x  2
+e = e  0
+  < c  1
+n ~ u  2
+t = t  0
+i = i  0
+o = o  0
+n = n  0
+
+Preparsing spellings into language-specific letters:
+>>> result = chart.levenshtein(['ll', 'a', 'dd'], ['ll', 'a'])
+>>> print(chart.vertical_alignment(result))
+ll = ll  0
+a  = a   0
+dd >     1
+
+The default configuration uses Levenshtein’s original operation costs.
+You can also pass in functions that define other scores for insertions
+(intrusive letters), deletions (omissions of required letters), and
+substitutions.
+These functions can be parameterized for different characters.
+For example, you could treat omitting diacritics and punctuation as less
+important than omitting letters.
+To assign a much lower cost to inserting a non-letter character than to
+inserting a letter:
+>>> import unicodedata
+>>> def my_ins_cost(insertion):
+...     return 1 if unicodedata.category(insertion).startswith('L') else 0.2
+>>> result = chart.levenshtein('cowgirl', 'cow-girls', ins_costs=my_ins_cost)
+>>> print(chart.vertical_alignment(result))
+c = c  0
+o = o  0
+w = w  0
+  < -  0.2
+g = g  0
+i = i  0
+r = r  0
+l = l  0
+  < s  1
+
+For beginning spellers, it may be useful to score as at least partially correct
+phonograms that spell target phonemes in the writing system, even if not
+correct in the current word.
+For example, spelling English [kæt] as ‹kat› is not as good as ‹cat›, but it is
+better than ‹rat›.
+One way to approach such a system is to pass in pronunciation as the `source`
+sequence, the subject’s spelling as the `target` sequence, and a mapping from
+phonemes to phonograms to costs as the core of a `sub_costs` argument.
 """
 # Brett Kessler, Washington University in St. Louis, Psychology
 # http://spell.psychology.wustl.edu
